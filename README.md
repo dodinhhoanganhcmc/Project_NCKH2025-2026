@@ -2,7 +2,7 @@
 
 PhoBERT Guard is a privacy-first, locally-inferencing browser extension designed to detect and block toxic Vietnamese content on social media platforms in real-time. Powered by a quantized ONNX version of PhoBERT, it runs purely in the browser—no data is sent to external servers, ensuring 100% privacy and low-latency filtering.
 
-## 🚀 Features
+## Features
 
 * **Offline AI Inference**: Uses `onnxruntime-web` and `@xenova/transformers` to run deep learning classification entirely within the browser.
 * **Bi-directional Protection**:
@@ -12,7 +12,7 @@ PhoBERT Guard is a privacy-first, locally-inferencing browser extension designed
 * **Zero Input Lag**: Implements a highly optimized DOM observer with `WeakMap` state tracking, debouncing, and a static fallback blacklist while the AI initializes.
 * **Universal Extension**: Supports Google Chrome, Microsoft Edge, and Mozilla Firefox (Gecko).
 
-## 🗂 Project Structure
+## Project Structure
 
 ```text
 ├── extension/
@@ -29,7 +29,20 @@ PhoBERT Guard is a privacy-first, locally-inferencing browser extension designed
 └── convert_to_onnx.sh    # Scripts used to convert the raw PyTorch model into ONNX.
 ```
 
-## 🛠️ Build & Installation
+## System Requirements & Performance Estimate
+
+Since this extension runs a 135MB Deep Learning model entirely locally within a browser's Service Worker (via WebAssembly), here are the performance metrics:
+
+- **Storage / Disk Space**: ~140MB (Mainly the quantized INT8 `.onnx` model).
+- **RAM Consumption**: 
+  - ~200MB - 300MB for the Background Service Worker holding the active ONNX session.
+  - ~5MB - 15MB per Active Tab for DOM Observation (highly optimized via `WeakMap`).
+- **CPU vs GPU**: Chrome Manifest V3 service workers currently restrict WebGL/WebGPU access. Therefore, the inference runs **strictly on the CPU** using the ONNX WebAssembly (WASM) backend. Integrated GPUs (GPU Onboard) or dedicated GPUs are currently **not heavily utilized** during this background inference process.
+- **Minimum Requirements**: 
+  - **Can it run on a 2010 PC?**: Yes, functionally. A 2010 CPU (e.g., Core 2 Duo or early Core i3) combined with 4GB RAM can run the WASM block. However, inference may take **1-2 seconds per text chunk**, potentially slowing down the typing experience on older hardware if the `debounce` rate isn't increased.
+  - **Recommended**: Any modern CPU (Intel i5 8th gen+, Apple Silicon, modern Ryzen) with 8GB RAM will execute the classification in `< 50ms`, providing a zero-lag experience.
+
+## Build & Installation
 
 ### For Developers (Unpacked Testing)
 
@@ -52,13 +65,13 @@ To package the extension for the Web Store, easily create a ZIP of the `extensio
 zip -r PhoBERT_Guard_Release.zip extension/
 ```
 
-## 💻 Tech Stack & Architecture
+## Tech Stack & Architecture
 
 - **Manifest V3**: Compliant with the latest Chrome extension standards (running `background.js` as an ephemeral Service Worker).
 - **In-Browser ML**: Overrides `transformers.js` default fetching to load the local `model_quantized.onnx` securely.
 - **WASM Acceleration**: Relies on WebAssembly to execute the Neural Network within the single thread allocated to Chrome V3 Service Workers.
 
-## 📐 Code Style & Contribution Guidelines
+## Code Style & Contribution Guidelines
 
 We aim to keep the codebase raw, lightning-fast, and universally readable. Contributors should strictly adhere to the following rules:
 
@@ -70,6 +83,6 @@ We aim to keep the codebase raw, lightning-fast, and universally readable. Contr
 4. **No Emojis**: Do not use graphical emojis in source code comments or system notifications (they clutter the interface and cause rendering inconsistencies across OS).
 5. **Segmenter Discipline**: When updating `libs/segmenter.js`, guarantee that underscore `_` artifacts are scrubbed before passing input to the ONNX tokenizer to prevent `OrtRun` crashes.
 
-## 📝 License
+## License
 
 This project is open-source. Feel free to fork, adapt, and improve the offline toxicity models!
