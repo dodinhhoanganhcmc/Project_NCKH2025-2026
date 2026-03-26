@@ -2,20 +2,20 @@
   "manifest_version": 3,
   "name": "PhoBERT Toxic Guard",
   "version": "1.0",
-  "description": "Chặn các bình luận và bài viết độc hại trên Mạng xã hội sử dụng mô hình PhoBERT AI.",
+  "description": "Chặn các bình luận và bài viết độc hại trên Mạng xã hội sử dụng mô hình PhoBERT AI (Chạy Offline hoàn toàn).",
   "permissions": [
-    "storage"
+    "storage",
+    "notifications"
   ],
-  "host_permissions": [
-    "http://171.241.42.222:8000/*",
-    "http://localhost:8000/*",
-    "*://*.facebook.com/*",
-    "*://*.youtube.com/*",
-    "*://*.twitter.com/*",
-    "*://*.x.com/*",
-    "*://*.instagram.com/*",
-    "*://*.threads.net/*"
-  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "phobert.guard@antigravity",
+      "strict_min_version": "109.0"
+    }
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -28,7 +28,9 @@
         "*://*.twitter.com/*",
         "*://*.x.com/*",
         "*://*.instagram.com/*",
-        "*://*.threads.net/*"
+        "*://*.threads.net/*",
+        "*://*.tiktok.com/*",
+        "*://*.reddit.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"

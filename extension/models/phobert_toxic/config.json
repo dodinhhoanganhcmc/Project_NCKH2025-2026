@@ -25,5 +25,13 @@
   "transformers_version": "4.57.6",
   "type_vocab_size": 1,
   "use_cache": true,
-  "vocab_size": 64001
+  "vocab_size": 64001,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  }
 }

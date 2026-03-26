@@ -1,32 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const apiUrlInput = document.getElementById('apiUrl');
+    const whitelistInput = document.getElementById('whitelist');
+    const blockingLevelSelect = document.getElementById('blockingLevel');
+    const outgoingLevelSelect = document.getElementById('outgoingLevel');
     const enableToggle = document.getElementById('enableToggle');
     const saveBtn = document.getElementById('saveBtn');
     const statusDiv = document.getElementById('status');
 
-    // Tải cấu hình cũ
+    // Load previous configuration
     chrome.storage.sync.get({
-        apiUrl: 'http://171.241.42.222:8000/analyze',
+        whitelist: ["con người", "con mèo", "con chó", "làm con", "muối bỏ biển"],
+        blockingLevel: 'normal',
+        outgoingLevel: 'normal',
         isEnabled: true
     }, (items) => {
-        apiUrlInput.value = items.apiUrl;
+        whitelistInput.value = items.whitelist.join(", ");
+        blockingLevelSelect.value = items.blockingLevel;
+        outgoingLevelSelect.value = items.outgoingLevel;
         enableToggle.checked = items.isEnabled;
     });
 
-    // Lưu cấu hình
+    // Save configuration
     saveBtn.addEventListener('click', () => {
+        // Convert comma-separated string back to array
+        let whitelistRaw = whitelistInput.value.split(',');
+        let whitelistArray = whitelistRaw.map(s => s.trim().toLowerCase()).filter(s => s.length > 0);
+
         chrome.storage.sync.set({
-            apiUrl: apiUrlInput.value,
+            whitelist: whitelistArray,
+            blockingLevel: blockingLevelSelect.value,
+            outgoingLevel: outgoingLevelSelect.value,
             isEnabled: enableToggle.checked
         }, () => {
-            statusDiv.style.display = 'block';
+            statusDiv.style.opacity = '1';
             setTimeout(() => {
-                statusDiv.style.display = 'none';
+                statusDiv.style.opacity = '0';
             }, 2000);
         });
     });
 
-    // Lắng nghe thay đổi bật/tắt để lưu ngay lập tức
+    // Listen to toggle changes to save immediately
     enableToggle.addEventListener('change', () => {
         chrome.storage.sync.set({ isEnabled: enableToggle.checked });
     });
