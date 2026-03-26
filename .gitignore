@@ -17,6 +17,8 @@ __pycache__/
 *.pth
 *.h5
 *.msgpack
+*.onnx
+*.onnx_data
 
 # Hệ điều hành & IDE tools
 .DS_Store

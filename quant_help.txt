@@ -1,0 +1,25 @@
+usage: optimum-cli onnxruntime quantize [-h] --onnx_model ONNX_MODEL -o OUTPUT
+                                        [--per_channel] (--arm64 | --avx2 |
+                                        --avx512 | --avx512_vnni | --ppc64le |
+                                        --tensorrt | -c CONFIG)
+
+options:
+  -h, --help            show this help message and exit
+  --arm64               Quantization for the ARM64 architecture.
+  --avx2                Quantization with AVX-2 instructions.
+  --avx512              Quantization with AVX-512 instructions.
+  --avx512_vnni         Quantization with AVX-512 and VNNI instructions.
+  --ppc64le             Quantization for the PowerPC architecture.
+  --tensorrt            Quantization for NVIDIA TensorRT optimizer.
+  -c, --config CONFIG   `ORTConfig` file to use to optimize the model.
+
+Required arguments:
+  --onnx_model ONNX_MODEL
+                        Path to the repository where the ONNX models to
+                        quantize are located.
+  -o, --output OUTPUT   Path to the directory where to store generated ONNX
+                        model.
+
+Optional arguments:
+  --per_channel         Compute the quantization parameters on a per-channel
+                        basis.
