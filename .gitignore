@@ -1,0 +1,25 @@
+# Môi trường ảo (Virtual Environment)
+venv/
+env/
+.env
+
+# Các file tạm và cache của Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Các file mô hình máy học kích thước lớn (Tránh đưa lên Git)
+# Bạn nên dùng Git LFS (Large File Storage) nếu bắt buộc phải commit các file này
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.h5
+*.msgpack
+
+# Hệ điều hành & IDE tools
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
