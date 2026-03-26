@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "PhoBERT Toxic Guard",
+  "version": "1.0",
+  "description": "Chặn các bình luận và bài viết độc hại trên Mạng xã hội sử dụng mô hình PhoBERT AI.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://171.241.42.222:8000/*",
+    "http://localhost:8000/*",
+    "*://*.facebook.com/*",
+    "*://*.youtube.com/*",
+    "*://*.twitter.com/*",
+    "*://*.x.com/*",
+    "*://*.instagram.com/*",
+    "*://*.threads.net/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.facebook.com/*",
+        "*://*.youtube.com/*",
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.instagram.com/*",
+        "*://*.threads.net/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Cấu hình PhoBERT Guard"
+  }
+}

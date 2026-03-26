@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PhoBERT Toxic Guard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 300px; padding: 10px; }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;}
+        h2 { margin: 0; font-size: 16px; color: #1a73e8; }
+        label { font-size: 13px; font-weight: bold; display: block; margin-top: 10px; }
+        input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px;}
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%;}
+        input:checked + .slider { background-color: #2196F3; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        button { background-color: #1a73e8; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-top: 15px; width: 100%; font-weight: bold;}
+        button:hover { background-color: #1557b0; }
+        #status { font-size: 12px; color: green; margin-top: 10px; text-align: center; display: none;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>PhoBERT Toxic Guard</h2>
+        <label class="switch">
+            <input type="checkbox" id="enableToggle" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <p style="font-size: 12px; color: #555; margin-top:-5px;">Chặn bài viết và bình luận độc hại bằng AI PhoBERT.</p>
+
+    <label for="apiUrl">API Server URL:</label>
+    <input type="text" id="apiUrl" placeholder="http://171.241.42.222:8000/analyze">
+    
+    <button id="saveBtn">Lưu Cấu Hình</button>
+    <div id="status">Đã lưu thành công!</div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
